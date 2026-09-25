@@ -15,7 +15,7 @@ Implementar una topología de red con FortiGate que aplique políticas de seguri
 
 ## 🗺️ Topología
 
-![Topología](Topologia.png)
+![Topología](Diagramas/Topologia.png)
 
 **Descripción:**
 - **FortiGate-7.0.9**: Firewall perimetral con políticas de seguridad.
