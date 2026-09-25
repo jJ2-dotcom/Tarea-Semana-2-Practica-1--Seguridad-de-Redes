@@ -117,7 +117,7 @@ Implementar una topología de red con FortiGate que aplique políticas de seguri
 
 ## 🎥 Video Demostrativo
 
-[Ver video en YouTube]((https://youtu.be/n2QUkuxylu0))
+[Ver video en YouTube](https://youtu.be/n2QUkuxylu0)
 
 ---
 
