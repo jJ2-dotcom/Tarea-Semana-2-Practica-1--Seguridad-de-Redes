@@ -1,0 +1,301 @@
+FortiGate-VM64-KVM # show system interface
+config system interface
+    edit "port1"
+        set vdom "root"
+        set ip 10.0.0.1 255.255.255.252
+        set allowaccess ping
+        set type physical
+        set snmp-index 1
+    next
+    edit "port2"
+        set vdom "root"
+        set ip 192.168.1.1 255.255.255.0
+        set allowaccess ping https ssh http
+        set type physical
+        set snmp-index 2
+    next
+    edit "naf.root"
+        set vdom "root"
+        set type tunnel
+        set src-check disable
+        set snmp-index 3
+    next
+    edit "l2t.root"
+        set vdom "root"
+        set type tunnel
+        set snmp-index 4
+    next
+    edit "ssl.root"
+
+        set vdom "root"
+        set type tunnel
+        set alias "SSL VPN interface"
+
+        set snmp-index 5
+    next
+    edit "fortilink"
+        set vdom "root"
+        set fortilink enable
+        set ip 10.255.1.1 255.255.255.0
+        set allowaccess ping fabric
+        set type aggregate
+
+        set lldp-reception
+enable
+        set lldp-transmission enable
+        set snmp-index 6
+    next
+    edit "port2.10"
+        set vdom "root"
+        set ip 192.168.10.1 255.255.255.0
+        set allowaccess ping
+        set device-identification enable
+--More--
+        set role lan
+        set snmp-index
+7
+
+    set interface "port2"
+--More--
+        set vlanid 10
+
+    next
+--More--
+    edit "port2.20"
+        set vdom "root"
+        set ip 192.168.20.1 255.255.255.0
+
+        set allowaccess ping
+        set device-identification enable
+        set role lan
+        set snmp-index 8
+        set interface "port2"
+        set vlanid 20
+    next
+end
+
+FortiGate-VM64-KVM #
+FortiGate-VM64-KVM #
+FortiGate-VM64-KVM #
+FortiGate-VM64-KVM # show router static
+config router static
+    edit 1
+        set gateway 10.0.0.2
+        set device "port1"
+    next
+end
+
+FortiGate-VM64-KVM #
+FortiGate-VM64-KVM #
+FortiGate-VM64-KVM #
+FortiGate-VM64-KVM #
+FortiGate-VM64-KVM # show firewall policy
+config firewall policy
+    edit 1
+        set name "NAT-LAN-to-WAN"
+        set uuid 210e47a0-b89c-51f1-1fd2-97b07be99577
+        set srcintf "port2.10" "port2.20"
+        set dstintf "port1"
+        set action accept
+        set srcaddr "all"
+        set dstaddr "all"
+        set schedule "always"
+        set service "ALL"
+        set nat enable
+    next
+    edit 2
+
+    set name "Usuarios-a-WebServer"
+        set uuid 73976708-b89d-51f1-4482-e8cc717bd8ec
+        set srcintf "port2.10"
+        set dstintf "port2.20"
+        set action accept
+        set srcaddr "all"
+        set dstaddr "all"
+        set schedule "always"
+        set service "HTTP" "HTTPS"
+        set utm-status enable
+        set ips-sensor "SQL-Block"
+
+        set application-list "block-high-risk"
+        set logtraffic all
+        set traffic-shaper "Anti-DoS"
+        set traffic-shaper-reverse "Anti-DoS"
+    next
+    edit 3
+        set name "Bloquear-Usuarios-a-DBServer"
+        set uuid 77f64a44-b89d-51f1-d9a3-0efa276fbf3b
+        set srcintf "port2.10"
+        set dstintf "port2.20"
+        set srcaddr "all"
+        set dstaddr "all"
+        set schedule "always"
+        set service "MYSQL"
+        set logtraffic all
+    next
+    edit 4
+        set name "WebServer-a-DBServer"
+        set uuid 7d8c615a-b89d-51f1-b13b-36b341a2da57
+        set srcintf "port2.20"
+        set dstintf "port2.20"
+        set action accept
+        set srcaddr "all"
+        set dstaddr "all"
+        set schedule "always"
+        set service "MYSQL"
+        set logtraffic all
+    next
+end
+
+FortiGate-VM64-KVM #
+FortiGate-VM64-KVM # show ips sensor
+config ips sensor
+    edit "default"
+        set comment "Prevent critical attacks."
+        config entries
+            edit 1
+                set severity medium high critical
+            next
+        end
+    next
+    edit "sniffer-profile"
+        set comment "Monitor IPS attacks."
+        config entries
+            edit 1
+                set severity medium high critical
+            next
+        end
+    next
+    edit "wifi-default"
+        set comment "Default configuration for offloading WiFi traffic."
+        config entries
+            edit 1
+                set severity medium high critical
+            next
+        end
+    next
+    edit "all_default"
+        set comment "All predefined signatures with default setting."
+
+        config entries
+
+            edit 1
+            next
+        end
+    next
+    edit "all_default_pass"
+        set comment "All predefined signatures with PASS action."
+        config entries
+
+            edit 1
+                set action
+pass
+            next
+        end
+    next
+    edit "protect_http_server"
+        set comment "Protect against HTTP server-side vulnerabilities."
+        config entries
+            edit 1
+
+                set location
+ server
+                set protocol HTTP
+
+            next
+        end
+    next
+
+    edit "protect_client"
+        set comment "Protect against client-side vulnerabilities."
+        config entries
+            edit 1
+                set location
+client
+            next
+        end
+    next
+    edit "high_security"
+        set comment "Blocks all Critical/High/Medium and some Low severity vulnerabilities"
+        set block-malicious-url enable
+        config entries
+--More--
+            edit 1
+
+
+        set severity medium high critical
+--More--
+                set status enable
+                set
+action block
+
+
+            next
+
+
+    edit 2
+                set severity low
+            next
+        end
+    next
+    edit "SQL-Injection-Block"
+        config entries
+            edit 1
+
+set rule 4254
+                set action block
+            next
+
+end
+    next
+
+
+    edit "SQL-Block"
+        set comment "Bloqueo de SQL Injection"
+
+config entries
+            edit 1
+                set severity high critical
+                set status enable
+                set action block
+            next
+        end
+    next
+end
+
+FortiGate-VM64-KVM #
+FortiGate-VM64-KVM #
+FortiGate-VM64-KVM #
+FortiGate-VM64-KVM #
+FortiGate-VM64-KVM # show firewall shaper traffic-shaper
+config firewall shaper traffic-shaper
+    edit "high-priority"
+        set maximum-bandwidth 1048576
+        set per-policy enable
+    next
+    edit "medium-priority"
+        set maximum-bandwidth 1048576
+        set priority medium
+        set per-policy enable
+    next
+    edit "low-priority"
+        set maximum-bandwidth 1048576
+        set priority low
+        set per-policy enable
+    next
+    edit "guarantee-100kbps"
+        set guaranteed-bandwidth 100
+        set maximum-bandwidth 1048576
+        set per-policy enable
+    next
+    edit "shared-1M-pipe"
+        set maximum-bandwidth 1024
+    next
+    edit "Anti-DoS"
+        set guaranteed-bandwidth 1000
+        set maximum-bandwidth 5000
+        set per-policy enable
+    next
+end
+
+FortiGate-VM64-KVM #
