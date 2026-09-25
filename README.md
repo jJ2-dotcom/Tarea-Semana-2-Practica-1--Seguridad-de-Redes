@@ -39,7 +39,7 @@ Implementar una topología de red con FortiGate que aplique políticas de seguri
 | port2.10 | 192.168.10.1/24 | 10 | Gateway Usuarios |
 | port2.20 | 192.168.20.1/24 | 20 | Gateway Servidores |
 
-![Interfaces FortiGate](Capturas/02-Interfaces%20del%20Fortigate.png)
+![Interfaces FortiGate](Capturas/02-Intefaces%20del%20Fortigate.png)
 
 #### Políticas de Firewall
 | ID | Nombre | Origen | Destino | Servicio | Acción | UTM |
