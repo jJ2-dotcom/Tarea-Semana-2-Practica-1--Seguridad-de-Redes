@@ -39,7 +39,7 @@ Implementar una topología de red con FortiGate que aplique políticas de seguri
 | port2.10 | 192.168.10.1/24 | 10 | Gateway Usuarios |
 | port2.20 | 192.168.20.1/24 | 20 | Gateway Servidores |
 
-![Interfaces FortiGate](Capturas/02-fortigate-interfaces.png)
+![Interfaces FortiGate](Capturas/02-Interfaces%20del%20Fortigate.png)
 
 #### Políticas de Firewall
 | ID | Nombre | Origen | Destino | Servicio | Acción | UTM |
@@ -49,27 +49,27 @@ Implementar una topología de red con FortiGate que aplique políticas de seguri
 | 3 | Bloquear-Usuarios-a-DBServer | port2.10 | port2.20 | MYSQL | Deny | - |
 | 4 | WebServer-a-DBServer | port2.20 | port2.20 | MYSQL | Accept | - |
 
-![Políticas](Capturas/03-politicas-firewall.png)
+![Políticas](Capturas/03-Politicas%20del%20Firewall.png)
 
 #### IPS (Detección de SQL Injection)
 - **Sensor**: `SQL-Block`
 - **Severidad**: High, Critical
 - **Acción**: Block + Log
 
-![IPS Sensor](Capturas/04-ips-sensor.png)
+![IPS Sensor](Capturas/04-IPS-Sensor.png)
 
 #### Filtrado de Aplicaciones (.exe)
 - **Perfil**: `block-high-risk`
 - **Categorías bloqueadas**: 2 (P2P) y 6 (Proxy/File Sharing)
 
-![Application List](Capturas/05-application-list.png)
+![Application List](Capturas/05-Application%20list.png)
 
 #### Rate Limiting (Anti-DoS)
 - **Traffic Shaper**: `Anti-DoS`
 - **Ancho de banda garantizado**: 1000 Kbps
 - **Ancho de banda máximo**: 5000 Kbps
 
-![Traffic Shaper](Capturas/06-traffic-shaper.png)
+![Traffic Shaper](Capturas/06-Traffic%20Shaper.png)
 
 ---
 
@@ -81,14 +81,14 @@ Implementar una topología de red con FortiGate que aplique políticas de seguri
 | 10 | USUARIOS | Gi0/1 |
 | 20 | SERVIDORES | Gi0/2, Gi0/3 |
 
-![VLANs Switch](Capturas/07-switch-vlan.png)
+![VLANs Switch](Capturas/07-Vlans%20-Switch.png)
 
 #### Trunk
 - **Puerto**: Gi0/0
 - **Encapsulación**: 802.1q
 - **VLANs activas**: 1, 10, 20
 
-![Trunk Switch](Capturas/08-switch-trunk.png)
+![Trunk Switch](Capturas/08%20Switch%20Trunk.png)
 
 ---
 
@@ -97,7 +97,7 @@ Implementar una topología de red con FortiGate que aplique políticas de seguri
 - **Interfaz**: FastEthernet0/0 con IP 10.0.0.2/30
 - **Ruta por defecto**: 0.0.0.0/0 vía 10.0.0.1
 
-![Rutas R1](Capturas/09-r1-routing.png)
+![Rutas R1](Capturas/09-%20Rutas%20del%20R1.png)
 
 ---
 
@@ -109,7 +109,9 @@ Implementar una topología de red con FortiGate que aplique políticas de seguri
 | WebServer | 192.168.20.10/24 | 192.168.20.1 | 20 |
 | DBServer | 192.168.20.11/24 | 192.168.20.1 | 20 |
 
-![VPCS](Capturas/10-vpcs-ips.png)
+![Usuario](Capturas/10A-VPCS%20ips.png)
+![WebServer](Capturas/10B-VPCS%20ips.png)
+![DBServer](Capturas/10C-VPCS%20ips.png)
 
 ---
 
