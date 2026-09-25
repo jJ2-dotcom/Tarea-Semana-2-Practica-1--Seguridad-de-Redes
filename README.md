@@ -115,6 +115,26 @@ Implementar una topología de red con FortiGate que aplique políticas de seguri
 
 ---
 
+## 📂 Proyecto GNS3
+
+- [Descargar topología GNS3](topologia.gns3)
+
+### 🚀 Cómo abrir el proyecto en GNS3
+
+1. Descargar el archivo **`topologia.gns3`** desde este repositorio.
+2. Abrir GNS3.
+3. Ir a **File > Open project**.
+4. Seleccionar el archivo **`topologia.gns3`**.
+5. ¡Listo! La topología se abrirá automáticamente.
+
+**Requisitos de imágenes:**
+- FortiGate 7.0.9
+- vIOS-L2 Adventure (viosl2-adventerprisek9-m.ssa.high_iron_20200929)
+- Cisco 7200 (para R1)
+- VPCS
+
+---
+
 ## 🎥 Video Demostrativo
 
 [Ver video en YouTube](https://youtu.be/n2QUkuxylu0)
